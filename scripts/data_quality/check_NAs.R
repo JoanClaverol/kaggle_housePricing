@@ -3,15 +3,6 @@
 # DESCRIPTION: 
 # -------------------------------------------------------------------------
 
-# libraires ---------------------------------------------------------------
-if (require(pacman) == FALSE) {
-  install.packages("pacman")
-}
-pacman::p_load(dplyr)
-
-# load data ---------------------------------------------------------------
-source("scripts/data_import/data_import.R")
-
 # MOst important variables (at first sight) affecting the price: 
 #   > OverallQual
 #   > 1 stFlrrSF or TotalBsmtBF

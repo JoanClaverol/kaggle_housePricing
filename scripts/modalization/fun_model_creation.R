@@ -37,14 +37,26 @@ modalization <- function(data, p_partition, cv_repeats, cv_number,
     )
   })
   stopCluster(cl)
-  # show the results 
-  train_results <- predict(object = mod, newdata = train)
-  test_results <- predict(object = mod, newdata = test)
-  print("TRAIN metrics:")
-  print(postResample(pred = train_results, obs = train[[x]]))
-  print("TEST metrics:")
-  print(postResample(pred = test_results, obs = test[[x]]))
   
-  # return the model
-  return(mod)
+  # train results and metrics
+  train$train_results <- predict(object = mod, newdata = train)
+  train_metrics <- postResample(pred = train$train_results, obs = train[[x]])
+  # test results and metrics
+  test$test_results <- predict(object = mod, newdata = test)
+  test_metrics <- postResample(pred = test$test_results, obs = test[[x]])
+  
+  # print the results
+  print("TRAIN metrics:")
+  print(train_metrics)
+  print("TEST metrics:")
+  print(test_metrics)
+  
+  # return relevant values
+  return(
+    list(
+      model = mod,
+      train_data = train, train_metrics = train_metrics,
+      test_data = test, test_metrics = test_metrics
+      )
+    )
 }

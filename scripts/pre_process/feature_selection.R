@@ -11,15 +11,6 @@
 #   > condition of the home. 
 # -------------------------------------------------------------------------
 
-# libraires ---------------------------------------------------------------
-if (require(pacman) == FALSE) {
-  install.packages("pacman")
-}
-pacman::p_load(dplyr)
-
-# load data ---------------------------------------------------------------
-source("scripts/data_import/data_import.R")
-
 # select variables --------------------------------------------------------
 # Most important variables (at first sight) affecting the price based on 
 # correlation matrix (exluded var with colinearity) and decision tree with
@@ -30,13 +21,18 @@ source("scripts/data_import/data_import.R")
 #   > Garage Cars
 #   > Neighbor
 #   > MSSubCla
-data %>% 
+data %<>% 
   select(
-    OverallQual, TotalBsmtSF, MSSubClass, GarageCars,
+    # id of the data and each observation 
+    df_id, Id,
+    
+    # dependent variable
+    SalePrice,
+    
     # 1. historic sales price:
     # we do not have the historical price of each house, but we have when has 
     # been sold
-    month_shold = MoSold, year_sold = YrSold,  
+    # MoSold, YrSold,  
     
     # 2. neighborhood: 
     Neighborhood,
@@ -45,11 +41,11 @@ data %>%
     # maybe we can extract information from external sources. When has been 
     # this data collected? we can create a general price for each neiborhood
     
-    
     # 4. size and appeal:
+    OverallQual, MSSubClass, GarageCars, GrLivArea,
     
     # 5. Age and condition: 
-    YearBuilt, YearRemodAdd,
+    # YearBuilt, YearRemodAdd,
     
     # 6. nearby features:
     )

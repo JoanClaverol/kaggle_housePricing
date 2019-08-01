@@ -65,6 +65,9 @@ temp %>%
     xlab(label = "Neighborhood name") +
     theme(panel.background = element_blank())
 
+# outliers+ ---------------------------------------------------------------
+# load data
+source("scripts/data_import/data_import.R")
 # boxplot: detect and extract outliers for sales price
 data %>% 
   ggplot(aes(x = Neighborhood, y = SalePrice)) +
@@ -74,6 +77,7 @@ data %>%
 # see the relation between the two variable 
 data %>% 
   mutate(SalePrice = round(SalePrice/1000, 0)) %>% 
+  filter(df_id == "train") %>% 
   ggplot(aes(x = GrLivArea, y = SalePrice)) +
     geom_point(aes(color = (GrLivArea > 4000 & SalePrice < 200))) + 
     geom_smooth(method = "loess") +
@@ -89,6 +93,7 @@ data %>%
           panel.background = element_blank())
 
 
+
 # -------------------------------------------------------------------------
 
 source("scripts/data_import/data_import.R")
@@ -97,3 +102,10 @@ data %>%
   # summarise(SalePrice = median(SalePrice, na.rm = T)) %>%
   ggplot() + 
     geom_density(aes(x = SalePrice, fill = MSZoning), alpha = 0.5)
+
+
+# error analysis ----------------------------------------------------------
+
+temp <- output$test_data
+temp %>% 
+  ggplot()

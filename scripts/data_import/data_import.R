@@ -3,12 +3,6 @@
 # DESCRIPTION: import the data and give the right type
 # -------------------------------------------------------------------------
 
-# libraires ---------------------------------------------------------------
-if (require(pacman) == FALSE) {
-  install.packages("pacman")
-}
-pacman::p_load(readr, dplyr)
-
 # load data ---------------------------------------------------------------
 train <- read_csv("data/raw_data/train.csv", col_types = cols())
 test <- read_csv("data/raw_data/test.csv", col_types = cols())
@@ -21,7 +15,8 @@ data <- test %>%
   mutate(df_id = if_else(df_id == 1, "test", "train")) %>% 
   mutate_if(is.character, as.factor) %>% 
   mutate_at(
-    vars(contains("AbvGr"), starts_with("MS"), "OverallQual", "Fireplaces"),
+    vars(contains("AbvGr"), starts_with("MS"), 
+         "OverallQual", "Fireplaces"),
     as.factor
   )
 
