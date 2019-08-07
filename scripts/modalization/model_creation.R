@@ -28,8 +28,6 @@ output <- modalization(
   model_name = "lm", 
   set_seed = 123
   )
-output
-
 
 # clean environment -------------------------------------------------------
 rm(modalization, x, y, train)

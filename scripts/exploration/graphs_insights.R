@@ -51,7 +51,7 @@ temp %>%
 source("scripts/data_import/data_import.R")
 # select variables 
 data %>% 
-  group_by(Neighborhood) -> temp_all %>% 
+  group_by(Neighborhood) %>% 
   summarise(SalePrice = median(SalePrice, na.rm = T)/1000) -> temp
 y_intercept <- mean(temp$SalePrice)
 # column chart
@@ -106,6 +106,29 @@ data %>%
 
 # error analysis ----------------------------------------------------------
 
+# lm analysis with feaure selection:
+# OverallQual, MSSubClass, GarageCars, GrLivArea,Neighboourhood
+
 temp <- output$test_data
 temp %>% 
-  ggplot()
+  ggplot() +
+    geom_point(aes(x = test_results, y = SalePrice, 
+                   col = factor(Neighborhood_NridgHt))) +
+    geom_abline(color = "black", alpha = 0.3)
+
+temp %>% 
+  add_residuals(model = output$model, var = "resid") %>%
+  mutate(resid = round(resid/1000, 0)) -> resid
+  filter(resid > 50) -> big_resid
+
+big_resid %>% 
+  group_by(GarageCars) %>% #Neighborhood, OverallQual, MSSubClass, GarageCars) %>% 
+  summarise(n = n())
+# problems of overall quality, 7 factors come from it
+# problems from houses with 2 garage cars
+# 
+
+  ggplot() +
+    geom_point(aes(x = Id, y = resid)) +
+    geom_hline(yintercept = 0) 
+

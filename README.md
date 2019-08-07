@@ -8,6 +8,11 @@ All the scripts will be managed fir the fille colled **octopus**.
 
 ### 2. Data quality
 
+#### Outliers
+
+There are two houses with a high ground living area and a relative low price, as you can see in the following graph:
+
+![](images/outlier_GrLivFloor.png)
 
 ### 3. Pre-process 
 
